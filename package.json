@@ -1,0 +1,20 @@
+{
+  "name": "ionic-vue-router-aborted-back-repro",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5390 --strictPort",
+    "test": "playwright test"
+  },
+  "dependencies": {
+    "@ionic/vue": "8.8.19",
+    "@ionic/vue-router": "8.8.19",
+    "vue": "3.5.42",
+    "vue-router": "4.5.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "@vitejs/plugin-vue": "6.0.1",
+    "vite": "7.3.7"
+  }
+}

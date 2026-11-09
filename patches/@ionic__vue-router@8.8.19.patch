@@ -1,0 +1,31 @@
+diff --git a/dist/index.js b/dist/index.js
+index 8874f817c2a57c63f4d3f9313d843c05fac8e338..d39e59e816e738d7ac74472e37bb6b038e0fcd3b 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -261,8 +261,25 @@ const createIonRouter = (opts, router) => {
+      * and any user guards have run.
+      */
+     router.afterEach((to, _, failure) => {
+-        if (failure)
++        if (failure) {
++            /**
++             * A navigation that a guard aborted (4) or that went to the current
++             * location (16) never reaches handleHistoryChange, so the params set for
++             * it (e.g. handleNavigateBack's "pop back to the previous page") would be
++             * taken by the next navigation, which then shows the previous page under
++             * its own url. Drop them. A cancelled one (8) is left alone: the
++             * navigation that replaced it may have set its own params already.
++             */
++            if (failure.type === 4 || failure.type === 16) {
++                incomingRouteParams = undefined;
++                currentNavigationInfo = {
++                    direction: undefined,
++                    action: undefined,
++                    delta: undefined,
++                };
++            }
+             return;
++        }
+         const { direction, action, delta } = currentNavigationInfo;
+         /**
+          * When calling router.replace, we are not informed
